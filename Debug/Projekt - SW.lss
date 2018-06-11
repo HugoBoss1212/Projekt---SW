@@ -67,10 +67,10 @@ Disassembly of section .text:
 0000006c <main>:
 
 #include <avr/io.h>
+#include <util/delay.h>
+#include <E:\Projekty\C Project\Projekt - SW\Projekt - SW\HD44780.h>
 
-
-int main(void)
-{
+int main(void){
   6c:	ff cf       	rjmp	.-2      	; 0x6c <main>
 
 0000006e <_exit>:
