@@ -7,7 +7,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <E:\Projekty\C Project\Projekt - SW\Projekt - SW\HD44780.h>
+#include "HD44780.h"
 
 int main(void){
 	 
