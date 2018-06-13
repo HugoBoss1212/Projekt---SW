@@ -27,6 +27,7 @@
 #define STR5 "Mode 5"
 
 void obsluga_delay( uint16_t ms, uint8_t *mode );
+void print_to_LCD( const char* message);
 
 uint16_t key_lock1=0, key_lock2=0;
 uint16_t delay = 50;
@@ -38,7 +39,33 @@ int main(void){
 	PORTB |= KEY_NEXT | KEY_PREVIOUS;
 	 
     while (1){
-		obsluga_delay(delay, &mode);
+		switch (mode) {
+			case 0: {
+				print_to_LCD(TAB_MODE[mode]);
+			
+				obsluga_delay(delay, &mode);
+			}
+			case 1:{
+				print_to_LCD(TAB_MODE[mode]);
+			
+				obsluga_delay(delay, &mode);
+			}
+			case 2:{
+				print_to_LCD(TAB_MODE[mode]);
+			
+				obsluga_delay(delay, &mode);
+			}
+			case 3:{
+				print_to_LCD(TAB_MODE[mode]);
+			
+				obsluga_delay(delay, &mode);
+			}
+			case 4:{
+				print_to_LCD(TAB_MODE[mode]);
+			
+				obsluga_delay(delay, &mode);
+			}
+		}
     }
 }
 
@@ -58,4 +85,8 @@ void obsluga_delay( uint16_t ms, uint8_t *mode) {
 		} else if( key_lock2 && (PINA & KEY_PREVIOUS) ) key_lock2--;
 		_delay_ms(0.95);
 	}
+}
+
+void print_to_LCD( const char* message){
+	;
 }
