@@ -3,6 +3,13 @@
  *
  * Created: 04.06.2018 11:21:44
  * Author : Kacper Lechowicz
+ // Port B0 i B1 do switch S1 i S2
+ // Port A2 to LCD_RS
+ // Port A3 to LCD_E
+ // Port A4 to LCD_D4
+ // Port A5 to LCD_D5
+ // Port A6 to LCD_D6
+ // Port A7 to LCD_D7
  */ 
 
 #include <avr/io.h>
@@ -11,8 +18,6 @@
 #include <string.h>
 #include <stdio.h>
 
-// Port B1 i B2 do switch S1 i S2
-//obs³uga przycisków
 #define KEY_NEXT (1<<PB0)
 #define KEY_PREVIOUS (1<<PB1)
 #define STR1 "Mode 1"
@@ -34,7 +39,6 @@ int main(void){
 	 
     while (1){
 		obsluga_delay(delay, &mode);
-		printf("%s", TAB_MODE[mode]);
     }
 }
 
