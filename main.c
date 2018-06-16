@@ -10,14 +10,14 @@
  * Port A5 to LCD_D5
  * Port A6 to LCD_D6
  * Port A7 to LCD_D7
+ * Porty PC od 0 do 7 pod³¹czyæ do led od 0 do 7
  */ 
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "HD44780.h"
-#include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
 
 #define KEY_NEXT (1<<PB0)
 #define KEY_PREVIOUS (1<<PB1)
@@ -27,11 +27,17 @@
 #define STR4 "Mode 4"
 #define STR5 "Mode 5"
 
+void LED_ON(int nr){ PORTC &= ~(1<<nr); }	
+void LED_OFF(int nr){ PORTC |= (1<<nr); }	
+void LED_TOG(int nr){ PORTC ^= (1<<nr); }	
+void LEDS_OFF(){ for(int i = 0; i < 8; i++){LEDS_OFF(i);}}
+void LEDS_ON(){ for(int i = 0; i < 8; i++){LEDS_ON(i);}}
+bool LED_isON(int nr){ return ((PORTC>>nr)&1 == 1) ? true : false; }
 void obsluga_delay( uint16_t ms );
 
 uint16_t key_lock1=0, key_lock2=0;
 char* TAB_MODE[5] = {STR1, STR2, STR3, STR4, STR5};
-uint16_t delay = 50;
+uint16_t delay = 100;
 uint16_t j = 0;
 uint8_t mode = 0;
 
@@ -39,6 +45,10 @@ int main(void){
 	//key ports init
 	DDRB &= ~KEY_NEXT | ~KEY_PREVIOUS;
 	PORTB |= KEY_NEXT | KEY_PREVIOUS;
+
+	//led init
+	DDRC |= 0xff;
+	PORTC |= 0;
 
 	//lcd ports init
 	TCCR1B |= 1<<WGM12;
@@ -51,15 +61,31 @@ int main(void){
     while (1){
 		switch (mode) {
 			case 0: {
-			
-				obsluga_delay(delay);
+				for (uint8_t i=0; i<8; i++){
+					LED_ON(i);
+					obsluga_delay(delay);
+				}
+				for (int8_t i=8; i>-1; i--){
+					LED_OFF(i);
+					obsluga_delay(delay);
+				}
 			}
 			case 1:{
-			
-				obsluga_delay(delay);
+				for (uint8_t i=0; i<8; i++){
+					LED_ON(i);
+					if (i>0){ LED_OFF(i-1); }
+					obsluga_delay(delay);
+				}
+				for (int8_t i=8; i>-1; i--){
+					LED_ON(i);
+					LED_OFF(i+1);
+					obsluga_delay(delay);
+				}
 			}
 			case 2:{
-			
+				LEDS_ON()
+				obsluga_delay(delay);
+				LEDS_OFF()
 				obsluga_delay(delay);
 			}
 			case 3:{
@@ -93,7 +119,6 @@ void obsluga_delay( uint16_t ms ) {
 }
 
 ISR(TIMER1_COMPA_vect){
-	char buffor[16];
 	LCD_Clear();
 	for(uint8_t i = 0; i < 16; i++){
 		LCD_WriteData(TAB_MODE[mode][i+j]);
