@@ -83,14 +83,23 @@ int main(void){
 				}
 			}
 			case 2:{
-				LEDS_ON()
+				LEDS_ON();
 				obsluga_delay(delay);
-				LEDS_OFF()
+				LEDS_OFF();
 				obsluga_delay(delay);
 			}
 			case 3:{
-			
-				obsluga_delay(delay);
+				int ports = 0b00000000;
+				while (ports != 0b11111111){
+					LEDS_OFF();
+					for(int i = 0; i < 8; i++){
+						if ((ports>>i)&1 == 1){
+							LED_ON(i);
+						}
+					}
+					ports++;
+					obsluga_delay(delay);
+				}
 			}
 			case 4:{
 			
