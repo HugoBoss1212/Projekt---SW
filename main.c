@@ -102,8 +102,12 @@ int main(void){
 				}
 			}
 			case 4:{
-			
-				obsluga_delay(delay);
+				for (int i = 0; i < 8; i++){
+					LEDS_OFF();
+					LED_ON(i);
+					LED_ON(8-i);
+					obsluga_delay(delay);
+				}			
 			}
 		}
     }
