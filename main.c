@@ -105,7 +105,7 @@ int main(void){
 				for (int i = 0; i < 8; i++){
 					LEDS_OFF();
 					LED_ON(i);
-					LED_ON(8-i);
+					LED_ON(7-i);
 					obsluga_delay(delay);
 				}			
 			}
